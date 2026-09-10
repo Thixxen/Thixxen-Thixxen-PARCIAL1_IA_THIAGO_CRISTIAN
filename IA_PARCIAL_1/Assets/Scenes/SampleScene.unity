@@ -2300,11 +2300,23 @@ PrefabInstance:
       value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: _boid.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: spawnInterval
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: _waypoints.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: objectOfInterstPrefab
+      value: 
+      objectReference: {fileID: 4819957225508866571, guid: 0e64cabcf9915444486ae9cfb9d76763, type: 3}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: _objectOfInterstPrefab
       value: 
       objectReference: {fileID: 4819957225508866571, guid: 0e64cabcf9915444486ae9cfb9d76763, type: 3}
     - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
@@ -2329,6 +2341,30 @@ PrefabInstance:
       objectReference: {fileID: 1310665074}
     - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: 'waypoints.Array.data[5]'
+      value: 
+      objectReference: {fileID: 1951422431}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: '_waypoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 364495434}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: '_waypoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 576332755}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: '_waypoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1422028852}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: '_waypoints.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1406848758}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: '_waypoints.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1310665074}
+    - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
+      propertyPath: '_waypoints.Array.data[5]'
       value: 
       objectReference: {fileID: 1951422431}
     m_RemovedComponents: []

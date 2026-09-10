@@ -56,7 +56,7 @@ public class HunterPatrolState : State
         }
 
         Vector3 moveDir = (targetWaypoint.position - _npc.transform.position).normalized;
-        _npc.transform.position += moveDir * _npc.speed * Time.deltaTime;
+        _npc.transform.position += moveDir * _npc.Speed * Time.deltaTime;
 
         if (moveDir != Vector3.zero)
         {
@@ -74,9 +74,9 @@ public class HunterPatrolState : State
 
             _npc.activeObjects.RemoveAll(obj => obj == null);
 
-            if(_npc.activeObjects.Count < 5 && _npc.objectOfInterstPrefab != null)
+            if(_npc.activeObjects.Count < 5 && _npc.ObjectOfInterestPrefab != null)
             {
-                 GameObject newObj = GameObject.Instantiate(_npc.objectOfInterstPrefab, _npc.transform.position, Quaternion.identity);
+                 GameObject newObj = GameObject.Instantiate(_npc.ObjectOfInterestPrefab, _npc.transform.position, Quaternion.identity);
                 _npc.activeObjects.Add(newObj);
             }
         }
