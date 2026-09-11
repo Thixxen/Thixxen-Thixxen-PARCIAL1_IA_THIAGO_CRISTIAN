@@ -997,6 +997,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3188841011222340005, guid: 29787bc59b8773f43b9160ce42d8e1fb, type: 3}
+      propertyPath: dangerMemoryTime
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1619835542222431369, guid: 29787bc59b8773f43b9160ce42d8e1fb, type: 3}
       propertyPath: m_Name
       value: AGENT (3)
@@ -2037,7 +2041,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3807604556852996406, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.22
+      value: 33.7
       objectReference: {fileID: 0}
     - target: {fileID: 3807604556852996406, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2045,7 +2049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3807604556852996406, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.58
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3807604556852996406, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2089,7 +2093,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: _boid.m_Bits
-      value: 64
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8351955497674314127, guid: 01fae005fb7e19e408213e4130b7a1cf, type: 3}
       propertyPath: spawnInterval

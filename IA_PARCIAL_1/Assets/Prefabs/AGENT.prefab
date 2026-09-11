@@ -129,3 +129,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Boid
   maxSpeed: 5
   maxAcceleration: 10
+  perceptionRadius: 6
+  separationRadius: 2
+  separationWeight: 2
+  alignmentWeight: 1
+  cohesionWeight: 0.5
+  evadeRadius: 8
+  evadeWeight: 3
+  dangerMemoryTime: 4
+  arriveRadius: 30
+  arriveSlowRadius: 4
+  arriveWeight: 2
+  velocity: {x: 0, y: 0, z: 0}
