@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class Boid : MonoBehaviour
 {
+    [Header("Health")]
+    [SerializeField] private int maxHealth = 3;
+
+    private int currentHealth;
+
     [Header("Movement")]
     public float maxSpeed = 5f;
     public float maxAcceleration = 10f;
@@ -34,6 +39,8 @@ public class Boid : MonoBehaviour
 
     private void Start()
     {
+        currentHealth = maxHealth;
+
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
 
         velocity = new Vector3(
@@ -41,6 +48,33 @@ public class Boid : MonoBehaviour
             0f,
             randomDirection.y
         ) * maxSpeed;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        Debug.Log(
+            gameObject.name +
+            " recibió " +
+            damage +
+            " de daño. Vida: " +
+            currentHealth +
+            "/" +
+            maxHealth
+        );
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Debug.Log(gameObject.name + " murió.");
+
+        gameObject.SetActive(false);
     }
 
     private void Update()
@@ -73,10 +107,6 @@ public class Boid : MonoBehaviour
             dangerTimer -= Time.deltaTime;
         }
 
-        // ==========================================
-        // 1. HUNTER DETECTADO
-        // ==========================================
-
         if (hunterDetected)
         {
             Vector3 escapeDirection =
@@ -95,11 +125,6 @@ public class Boid : MonoBehaviour
                 );
             }
         }
-
-        // ==========================================
-        // 2. MEMORIA DE PELIGRO
-        // ==========================================
-
         else if (dangerTimer > 0f)
         {
             Vector3 escapeDirection =
@@ -118,11 +143,6 @@ public class Boid : MonoBehaviour
                 );
             }
         }
-
-        // ==========================================
-        // 3. COMPORTAMIENTO NORMAL
-        // ==========================================
-
         else
         {
             GameObject interestPoint =
