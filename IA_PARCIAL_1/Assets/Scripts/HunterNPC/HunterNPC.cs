@@ -41,8 +41,26 @@ public class HunterNPC : MonoBehaviour
     public float attackTimer { get; private set; }
     public Transform currentTarget { get; set; }
 
+    [SerializeField] private float _ghtherTime = 2.0f;
+    [SerializeField] private LayerMask _deadBoidLayer;
+
+    public float gatherTime => _ghtherTime;
+    public LayerMask deadBoidLayer => _deadBoidLayer;
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private Transform _firePoint;
+    [SerializeField] private int _maxAmmo = 5;           // Balas por cargador
+    [SerializeField] private float _fireRate = 0.5f;     // Tiempo entre cada disparo
+
+    public GameObject BulletPrefab => _bulletPrefab;
+    public Transform FirePoint => _firePoint;
+    public int MaxAmmo => _maxAmmo;
+    public float FireRate => _fireRate;
+
+    public int currentAmmo { get; set; } // Balas actuales
+
     private void Awake()
     {
+        currentAmmo = _maxAmmo; // Llenamos el arma al empezar el juego
         stateMachine = new StateMachine();
         HunterPatrolState patrolState = new HunterPatrolState(this, stateMachine);
         HunterAttackState attackState = new HunterAttackState(this, stateMachine);
@@ -53,6 +71,7 @@ public class HunterNPC : MonoBehaviour
         stateMachine.RegisterState(HunterStates.Gather, gatherState);
 
         stateMachine.ChangeState(HunterStates.Patrol);
+        
 
     }
 
@@ -61,7 +80,7 @@ public class HunterNPC : MonoBehaviour
     {
         if (attackTimer < _tba)
         {
-            attackTimer = Time.deltaTime;
+            attackTimer += Time.deltaTime;
         }
 
         stateMachine.Update();
@@ -69,5 +88,18 @@ public class HunterNPC : MonoBehaviour
     public void RestAttackTimer()
     {
         attackTimer = 0f;
+    }
+    private void OnDrawGizmosSelected()
+    {
+        // Dibuja una esfera amarilla para mostrar el radio de visión
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _perceptionRadius);
+
+        // Dibuja esferas rojas para los rangos de ataque
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _rangeAttackRadius);
+
+        Gizmos.color = new Color(1, 0, 0, 0.5f); // Rojo transparente
+        Gizmos.DrawWireSphere(transform.position, _meleeAttackRadius);
     }
 }

@@ -30,6 +30,25 @@ public class HunterPatrolState : State
         PatrolMovement();
         // generacion de objeto de interes
         GenerateObjectOfInterest();
+
+        Collider[] deadBois = Physics.OverlapSphere(_npc.transform.position, _npc.perceptionRadius, _npc.deadBoidLayer); 
+        if(deadBois.Length > 0 )
+        {
+            _npc.currentTarget = deadBois[0].transform;
+            StateMachine.ChangeState(HunterStates.Gather);
+            return;
+        }
+
+        if(_npc.attackTimer >= _npc.TBA)
+        {
+            Collider[] liveBoids = Physics.OverlapSphere(_npc.transform.position, _npc.perceptionRadius, _npc.boid);
+
+            if(liveBoids.Length > 0)
+            {
+                _npc.currentTarget = liveBoids[0].transform;
+                StateMachine.ChangeState(HunterStates.Attack);
+            }
+        }
     }
 
     private void PatrolMovement()
@@ -51,7 +70,7 @@ public class HunterPatrolState : State
             else if (_currentNode < 0)
             {
                 _currentNode = 1;
-                _direction = -1;
+                _direction = 1;
             }
         }
 
