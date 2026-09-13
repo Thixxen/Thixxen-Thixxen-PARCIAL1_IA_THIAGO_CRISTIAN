@@ -137,7 +137,7 @@ Transform:
   m_GameObject: {fileID: 1636489589676742831}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.6695709, y: -1.01, z: -16.42666}
+  m_LocalPosition: {x: 0.923, y: 0.058, z: -0.013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HunterNPC
   _tba: 10
-  _rangeAttackRadius: 10
+  _rangeAttackRadius: 15
   _meleeAttackRadius: 1.5
   _speed: 7
   _waypoints:
@@ -322,8 +322,8 @@ MonoBehaviour:
   _ghtherTime: 2
   _deadBoidLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   _bulletPrefab: {fileID: 6522594760839984479, guid: 186fab9f9a067bd4d9cf41f6651c5150, type: 3}
   _firePoint: {fileID: 0}
   _maxAmmo: 5
-  _fireRate: 0.5
+  _fireRate: 1.5

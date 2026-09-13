@@ -2,38 +2,45 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f;
-    [SerializeField] private float lifeTime = 3f;
-    [SerializeField] private int damage = 1;
+    [SerializeField] private float _speed = 10f; // Bajamos un poco la velocidad para verla viajar
+    [SerializeField] private float _lifeTime = 3f;
+    [SerializeField] private int _damage = 1;
+
+    // ¡ACÁ ESTÁ LA VARIABLE! Declarada arriba para que exista en todo el código.
+    private bool _hasImpacted = false;
 
     private void Start()
     {
-        Destroy(gameObject, lifeTime);
+        // Se destruirá sola a los 3 segundos si no choca con nada
+        Destroy(gameObject, _lifeTime);
     }
 
     private void Update()
     {
-        transform.position +=
-            transform.forward *
-            speed *
-            Time.deltaTime;
+        // El motor de movimiento de la bala
+        transform.position += transform.forward * _speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer ==
-            LayerMask.NameToLayer("Boid"))
+        // ¡El chismoso! Esto nos dirá en la consola contra qué está chocando apenas nace
+        Debug.Log($"La bala chocó contra: {other.gameObject.name} (Capa: {LayerMask.LayerToName(other.gameObject.layer)})");
+
+        // El seguro antibugs: si ya impactó en este frame, ignoramos el resto
+        if (_hasImpacted) return;
+
+        // Si choca contra la capa del Boid...
+        if (other.gameObject.layer == LayerMask.NameToLayer("Boid"))
         {
-            Debug.Log("¡La bala impactó a un Boid!");
+            Boid scriptDelBoid = other.GetComponent<Boid>();
 
-            Boid boid =
-                other.GetComponent<Boid>();
-
-            if (boid != null)
+            if (scriptDelBoid != null)
             {
-                boid.TakeDamage(damage);
+                scriptDelBoid.TakeDamage(_damage);
+                _hasImpacted = true; // ¡Activamos el seguro!
             }
 
+            // Destruimos la bala al final
             Destroy(gameObject);
         }
     }

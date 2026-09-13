@@ -72,9 +72,16 @@ public class Boid : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log(gameObject.name + " murió.");
+        Debug.Log(gameObject.name + " murió y ahora es recolectable.");
 
-        gameObject.SetActive(false);
+        
+        velocity = Vector3.zero;
+
+       
+        gameObject.layer = LayerMask.NameToLayer("DeadBoid");
+
+        GetComponent<Collider>().isTrigger = true;
+        this.enabled = false;
     }
 
     private void Update()

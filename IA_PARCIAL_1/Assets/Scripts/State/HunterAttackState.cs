@@ -1,6 +1,8 @@
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+
+
 public class HunterAttackState : State
 {
     private HunterNPC _npc;
@@ -13,9 +15,9 @@ public class HunterAttackState : State
 
     public override void Enter()
     {
-        Debug.Log("Cazador entra en estado Ataque. ¡Objetivo en la mira!");
+        Debug.Log("Cazador entra en estado Ataque.");
 
-        // Hacemos que el temporizador comience listo para disparar la primera bala al instante
+        // Empezamos con el temporizador cargado para que el primer tiro sea inmediato
         _fireTimer = _npc.FireRate;
     }
 
@@ -32,9 +34,36 @@ public class HunterAttackState : State
             return;
         }
 
+        // ==========================================
+        // 1. CHEQUEO TÁCTICO: ¿EL BOID MURIÓ?
+        // ==========================================
+        if (_npc.currentTarget.gameObject.layer != LayerMask.NameToLayer("Boid"))
+        {
+            Debug.Log("El objetivo murió. Revisando munición restante...");
+            _npc.currentTarget = null;
+
+            // SÓLO recargamos el arma (y el TBA) si nos quedamos en 0.
+            if (_npc.currentAmmo <= 0)
+            {
+                Debug.Log("¡Cargador vacío tras la baja! Iniciando recarga (TBA).");
+                _npc.currentAmmo = _npc.MaxAmmo;
+                _npc.RestAttackTimer(); // Esto apaga el radar temporalmente
+            }
+            else
+            {
+                Debug.Log($"Me sobran {_npc.currentAmmo} balas. Sigo patrullando con el radar activo.");
+                // Al NO resetear el AttackTimer, el radar sigue buscando enemigos inmediatamente.
+            }
+
+            StateMachine.ChangeState(HunterStates.Patrol);
+            return;
+        }
+
+        // ==========================================
+        // 2. CÁLCULO DE DISTANCIAS
+        // ==========================================
         float distance = Vector3.Distance(_npc.transform.position, _npc.currentTarget.position);
 
-        // Si el boid se escapa de la vista, vuelve a patrullar pero NO recarga mágicamente
         if (distance > _npc.perceptionRadius)
         {
             _npc.currentTarget = null;
@@ -42,7 +71,6 @@ public class HunterAttackState : State
             return;
         }
 
-        // Evaluar distancias de ataque
         if (distance <= _npc.meleeAttackRadius)
         {
             ExecuteMeleeAttack();
@@ -70,17 +98,23 @@ public class HunterAttackState : State
 
     private void ExecuteRangedAttack()
     {
+        // Obliga al Cazador a mirar al boid antes de disparar
+        Vector3 direction = (_npc.currentTarget.position - _npc.transform.position).normalized;
+        if (direction != Vector3.zero)
+        {
+            _npc.transform.forward = direction;
+        }
+
         _fireTimer += Time.deltaTime;
 
-        // Si ya pasó el tiempo para la siguiente bala (Fire Rate)
+        // Espera el "Fire Rate" entre cada disparo individual
         if (_fireTimer >= _npc.FireRate)
         {
-            _fireTimer = 0f;          // Reiniciamos el tiempo entre balas
-            _npc.currentAmmo--;       // Restamos una bala
+            _fireTimer = 0f;
+            _npc.currentAmmo--; // Gastamos una bala
 
-            Debug.Log($"¡PUM! Balas restantes: {_npc.currentAmmo}");
+            Debug.Log($"¡Disparo! Balas restantes: {_npc.currentAmmo}");
 
-            // Instanciamos la bala
             if (_npc.BulletPrefab != null && _npc.FirePoint != null)
             {
                 Vector3 shootDirection = (_npc.currentTarget.position - _npc.FirePoint.position).normalized;
@@ -88,13 +122,12 @@ public class HunterAttackState : State
                 bullet.transform.forward = shootDirection;
             }
 
-            // ¿Se quedó sin balas?
+            // Si falló, o si el Boid necesita muchos tiros, y nos quedamos sin balas en pleno tiroteo:
             if (_npc.currentAmmo <= 0)
             {
-                Debug.Log("Cargador vacío. ¡Iniciando recarga (TBA) y volviendo a Patrullar!");
-
-                _npc.currentAmmo = _npc.MaxAmmo; // Recarga el arma para la próxima vez
-                _npc.RestAttackTimer();          // Inicia el cronómetro TBA (Cooldown)
+                Debug.Log("Me quedé sin balas en pleno combate. ¡Recargando (TBA)!");
+                _npc.currentAmmo = _npc.MaxAmmo;
+                _npc.RestAttackTimer(); // Inicia la recarga larga
 
                 _npc.currentTarget = null;
                 StateMachine.ChangeState(HunterStates.Patrol);

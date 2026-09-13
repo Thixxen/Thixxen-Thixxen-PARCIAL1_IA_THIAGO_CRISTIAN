@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd909950b2cb374c9e7926d8bcfc6c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boid
+  maxHealth: 3
   maxSpeed: 5
   maxAcceleration: 10
   perceptionRadius: 6
@@ -162,7 +163,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 12
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-8975733571462036396
 Rigidbody:
