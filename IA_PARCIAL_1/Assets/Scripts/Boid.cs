@@ -42,6 +42,7 @@ public class Boid : MonoBehaviour
 
     private WorldSpaceIndicator indicator;
 
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -98,6 +99,73 @@ public class Boid : MonoBehaviour
         }
 
         this.enabled = false;
+    }
+
+    // =====================================================
+    // REVIVIR BOID
+    // =====================================================
+
+    public void ReviveAt(Vector3 respawnPosition)
+    {
+        Debug.Log(
+            gameObject.name +
+            " está reviviendo."
+        );
+
+        // Nueva posición
+        transform.position =
+            respawnPosition;
+
+        // Recuperar vida
+        currentHealth =
+            maxHealth;
+
+        // Resetear peligro
+        dangerTimer = 0f;
+        lastHunterPosition = Vector3.zero;
+
+        // Volver a ser un Boid normal
+        gameObject.layer =
+            LayerMask.NameToLayer("Boid");
+
+        // Volver a collider normal
+        Collider collider =
+            GetComponent<Collider>();
+
+        if (collider != null)
+        {
+            collider.isTrigger = false;
+        }
+
+        // Reactivar el comportamiento
+        this.enabled = true;
+
+        // Darle una dirección nueva
+        Vector2 randomDirection =
+            Random.insideUnitCircle.normalized;
+
+        velocity = new Vector3(
+            randomDirection.x,
+            0f,
+            randomDirection.y
+        ) * maxSpeed;
+
+        // Asegurar que el indicador siga conectado
+        if (indicator == null)
+        {
+            indicator =
+                GetComponent<WorldSpaceIndicator>();
+        }
+
+        if (indicator != null)
+        {
+            indicator.Hide();
+        }
+
+        Debug.Log(
+            gameObject.name +
+            " revivió correctamente."
+        );
     }
 
     private void Update()
@@ -221,12 +289,20 @@ public class Boid : MonoBehaviour
 
                 if (distanceToInterest <= eatDistance)
                 {
-                    Destroy(interestPoint);
+                    velocity = Vector3.zero;
+                    Destroy(interestPoint, 3f);
                 }
+
+                // =================================================
+                // ARRIVE
+                // =================================================
+
                 else if (distanceToInterest <= arriveRadius)
                 {
                     Vector3 arrive =
-                        CalculateArrive(interestPoint);
+                        CalculateArrive(
+                            interestPoint
+                        );
 
                     velocity +=
                         arrive *
@@ -234,6 +310,11 @@ public class Boid : MonoBehaviour
                         Time.deltaTime *
                         maxAcceleration;
                 }
+
+                // =================================================
+                // FLOCKING
+                // =================================================
+
                 else
                 {
                     ApplyFlocking();

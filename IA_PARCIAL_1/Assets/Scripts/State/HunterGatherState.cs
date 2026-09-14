@@ -117,9 +117,43 @@ public class HunterGatherState : State
                 _npc.gatherTime
             )
             {
-                GameObject.Destroy(
-                    _npc.currentTarget.gameObject
-                );
+                // ==========================================
+                // REVIVIR BOID
+                // ==========================================
+
+                Boid boid =
+                    _npc.currentTarget.GetComponent<Boid>();
+
+                if (boid != null)
+                {
+                    // Posición aleatoria dentro del mapa
+                    float randomX =
+                        Random.Range(
+                            -28.29773f,
+                            61.73773f
+                        );
+
+                    float randomZ =
+                        Random.Range(
+                            -46.5822f,
+                            55.2534f
+                        );
+
+                    Vector3 respawnPosition =
+                        new Vector3(
+                            randomX,
+                            1f,
+                            randomZ
+                        );
+
+                    boid.ReviveAt(
+                        respawnPosition
+                    );
+
+                    Debug.Log(
+                        "¡Boid recolectado y revivido!"
+                    );
+                }
 
                 _npc.currentTarget = null;
 
