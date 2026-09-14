@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: -3188841011222340005}
   - component: {fileID: -7337271148769693538}
   - component: {fileID: -8975733571462036396}
+  - component: {fileID: -546610662753151790}
+  - component: {fileID: 3182622569093057392}
   m_Layer: 6
   m_Name: AGENT
   m_TagString: Untagged
@@ -143,6 +145,7 @@ MonoBehaviour:
   arriveRadius: 30
   arriveSlowRadius: 4
   arriveWeight: 2
+  eatDistance: 1
   velocity: {x: 0, y: 0, z: 0}
 --- !u!135 &-7337271148769693538
 SphereCollider:
@@ -192,3 +195,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-546610662753151790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619835542222431369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 123d94d86b5017e46b1093e4b55a5495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldWrap
+  minX: -28.29773
+  maxX: 61.73773
+  minZ: -46.5822
+  maxZ: 55.2534
+--- !u!114 &3182622569093057392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619835542222431369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057ee7daf7405eb438cb8125a241adc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldSpaceIndicator
+  height: 2
+  fontSize: 200
+  characterSize: 0.05

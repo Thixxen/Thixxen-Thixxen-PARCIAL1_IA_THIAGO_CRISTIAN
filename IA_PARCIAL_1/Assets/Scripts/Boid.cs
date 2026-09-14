@@ -32,16 +32,24 @@ public class Boid : MonoBehaviour
     public float arriveSlowRadius = 4f;
     public float arriveWeight = 2f;
 
+    [Header("Eating")]
+    [SerializeField] private float eatDistance = 2f;
+
     public Vector3 velocity;
 
     private float dangerTimer = 0f;
     private Vector3 lastHunterPosition;
 
+    private WorldSpaceIndicator indicator;
+
     private void Start()
     {
         currentHealth = maxHealth;
 
-        Vector2 randomDirection = Random.insideUnitCircle.normalized;
+        indicator = GetComponent<WorldSpaceIndicator>();
+
+        Vector2 randomDirection =
+            Random.insideUnitCircle.normalized;
 
         velocity = new Vector3(
             randomDirection.x,
@@ -72,15 +80,23 @@ public class Boid : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log(gameObject.name + " murió y ahora es recolectable.");
+        Debug.Log(
+            gameObject.name +
+            " murió y ahora es recolectable."
+        );
 
-        
         velocity = Vector3.zero;
 
-       
-        gameObject.layer = LayerMask.NameToLayer("DeadBoid");
+        gameObject.layer =
+            LayerMask.NameToLayer("DeadBoid");
 
         GetComponent<Collider>().isTrigger = true;
+
+        if (indicator != null)
+        {
+            indicator.Hide();
+        }
+
         this.enabled = false;
     }
 
@@ -93,10 +109,11 @@ public class Boid : MonoBehaviour
 
         if (hunter != null)
         {
-            float distanceToHunter = Vector3.Distance(
-                transform.position,
-                hunter.transform.position
-            );
+            float distanceToHunter =
+                Vector3.Distance(
+                    transform.position,
+                    hunter.transform.position
+                );
 
             if (distanceToHunter <= evadeRadius)
             {
@@ -105,7 +122,8 @@ public class Boid : MonoBehaviour
                 lastHunterPosition =
                     hunter.transform.position;
 
-                dangerTimer = dangerMemoryTime;
+                dangerTimer =
+                    dangerMemoryTime;
             }
         }
 
@@ -114,10 +132,20 @@ public class Boid : MonoBehaviour
             dangerTimer -= Time.deltaTime;
         }
 
+        // =====================================================
+        // HUNTER DETECTADO
+        // =====================================================
+
         if (hunterDetected)
         {
+            if (indicator != null)
+            {
+                indicator.Show();
+            }
+
             Vector3 escapeDirection =
-                transform.position - hunter.transform.position;
+                transform.position -
+                hunter.transform.position;
 
             escapeDirection.y = 0f;
 
@@ -132,10 +160,21 @@ public class Boid : MonoBehaviour
                 );
             }
         }
+
+        // =====================================================
+        // MEMORIA DEL PELIGRO
+        // =====================================================
+
         else if (dangerTimer > 0f)
         {
+            if (indicator != null)
+            {
+                indicator.Show();
+            }
+
             Vector3 escapeDirection =
-                transform.position - lastHunterPosition;
+                transform.position -
+                lastHunterPosition;
 
             escapeDirection.y = 0f;
 
@@ -150,28 +189,50 @@ public class Boid : MonoBehaviour
                 );
             }
         }
+
+        // =====================================================
+        // COMPORTAMIENTO NORMAL
+        // =====================================================
+
         else
         {
+            if (indicator != null)
+            {
+                indicator.Hide();
+            }
+
             GameObject interestPoint =
                 FindClosestInterestPoint();
 
             if (interestPoint != null)
             {
-                float distanceToInterest =
-                    Vector3.Distance(
-                        transform.position,
-                        interestPoint.transform.position
-                    );
+                Vector3 horizontalDifference =
+                    interestPoint.transform.position -
+                    transform.position;
 
-                if (distanceToInterest <= arriveRadius)
+                horizontalDifference.y = 0f;
+
+                float distanceToInterest =
+                    horizontalDifference.magnitude;
+
+                // =================================================
+                // COMER EL OBJETO
+                // =================================================
+
+                if (distanceToInterest <= eatDistance)
+                {
+                    Destroy(interestPoint);
+                }
+                else if (distanceToInterest <= arriveRadius)
                 {
                     Vector3 arrive =
                         CalculateArrive(interestPoint);
 
-                    velocity += arrive
-                        * arriveWeight
-                        * Time.deltaTime
-                        * maxAcceleration;
+                    velocity +=
+                        arrive *
+                        arriveWeight *
+                        Time.deltaTime *
+                        maxAcceleration;
                 }
                 else
                 {
