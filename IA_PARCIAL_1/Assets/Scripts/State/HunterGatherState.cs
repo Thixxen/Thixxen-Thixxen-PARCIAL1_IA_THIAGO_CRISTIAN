@@ -26,7 +26,7 @@ public class HunterGatherState : State
         _indicator =
             _npc.GetComponent<WorldSpaceIndicator>();
 
-        // Indicador de recolección
+       
         if (_indicator != null)
         {
             _indicator.Show(
@@ -50,9 +50,7 @@ public class HunterGatherState : State
 
     public override void Update()
     {
-        // ==========================================
-        // NO HAY OBJETIVO
-        // ==========================================
+      
 
         if (_npc.currentTarget == null)
         {
@@ -63,19 +61,14 @@ public class HunterGatherState : State
             return;
         }
 
-        // ==========================================
-        // DISTANCIA AL BOID MUERTO
-        // ==========================================
-
+     
         float distance =
             Vector3.Distance(
                 _npc.transform.position,
                 _npc.currentTarget.position
             );
 
-        // ==========================================
-        // ACERCARSE
-        // ==========================================
+      
 
         if (distance > _npc.meleeAttackRadius)
         {
@@ -97,9 +90,7 @@ public class HunterGatherState : State
             }
         }
 
-        // ==========================================
-        // RECOLECTAR
-        // ==========================================
+        
 
         else
         {
@@ -117,16 +108,14 @@ public class HunterGatherState : State
                 _npc.gatherTime
             )
             {
-                // ==========================================
-                // REVIVIR BOID
-                // ==========================================
+                
 
                 Boid boid =
                     _npc.currentTarget.GetComponent<Boid>();
 
                 if (boid != null)
                 {
-                    // Posición aleatoria dentro del mapa
+                   
                     float randomX =
                         Random.Range(
                             -28.29773f,

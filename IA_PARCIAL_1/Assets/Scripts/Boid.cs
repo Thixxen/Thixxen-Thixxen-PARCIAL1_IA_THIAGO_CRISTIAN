@@ -101,9 +101,7 @@ public class Boid : MonoBehaviour
         this.enabled = false;
     }
 
-    // =====================================================
-    // REVIVIR BOID
-    // =====================================================
+   
 
     public void ReviveAt(Vector3 respawnPosition)
     {
@@ -112,23 +110,23 @@ public class Boid : MonoBehaviour
             " está reviviendo."
         );
 
-        // Nueva posición
+        
         transform.position =
             respawnPosition;
 
-        // Recuperar vida
+        
         currentHealth =
             maxHealth;
 
-        // Resetear peligro
+        
         dangerTimer = 0f;
         lastHunterPosition = Vector3.zero;
 
-        // Volver a ser un Boid normal
+       
         gameObject.layer =
             LayerMask.NameToLayer("Boid");
 
-        // Volver a collider normal
+       
         Collider collider =
             GetComponent<Collider>();
 
@@ -137,10 +135,10 @@ public class Boid : MonoBehaviour
             collider.isTrigger = false;
         }
 
-        // Reactivar el comportamiento
+        
         this.enabled = true;
 
-        // Darle una dirección nueva
+        
         Vector2 randomDirection =
             Random.insideUnitCircle.normalized;
 
@@ -150,7 +148,7 @@ public class Boid : MonoBehaviour
             randomDirection.y
         ) * maxSpeed;
 
-        // Asegurar que el indicador siga conectado
+       
         if (indicator == null)
         {
             indicator =
@@ -200,9 +198,7 @@ public class Boid : MonoBehaviour
             dangerTimer -= Time.deltaTime;
         }
 
-        // =====================================================
-        // HUNTER DETECTADO
-        // =====================================================
+       
 
         if (hunterDetected)
         {
@@ -229,9 +225,7 @@ public class Boid : MonoBehaviour
             }
         }
 
-        // =====================================================
-        // MEMORIA DEL PELIGRO
-        // =====================================================
+        
 
         else if (dangerTimer > 0f)
         {
@@ -258,9 +252,7 @@ public class Boid : MonoBehaviour
             }
         }
 
-        // =====================================================
-        // COMPORTAMIENTO NORMAL
-        // =====================================================
+    
 
         else
         {
@@ -283,19 +275,13 @@ public class Boid : MonoBehaviour
                 float distanceToInterest =
                     horizontalDifference.magnitude;
 
-                // =================================================
-                // COMER EL OBJETO
-                // =================================================
-
                 if (distanceToInterest <= eatDistance)
                 {
                     velocity = Vector3.zero;
                     Destroy(interestPoint, 3f);
                 }
 
-                // =================================================
-                // ARRIVE
-                // =================================================
+              
 
                 else if (distanceToInterest <= arriveRadius)
                 {
@@ -311,9 +297,7 @@ public class Boid : MonoBehaviour
                         maxAcceleration;
                 }
 
-                // =================================================
-                // FLOCKING
-                // =================================================
+              
 
                 else
                 {

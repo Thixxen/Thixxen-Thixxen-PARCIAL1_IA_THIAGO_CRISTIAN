@@ -70,7 +70,7 @@ public class WorldSpaceIndicator : MonoBehaviour
         text.gameObject.SetActive(true);
     }
 
-    // Compatible con el Boid anterior
+    
     public void Show()
     {
         Show("!", Color.red);

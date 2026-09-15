@@ -26,9 +26,9 @@ public class HunterPatrolState : State
 
     public override void Update()
     {
-        // movimientos por Waipoints
+        
         PatrolMovement();
-        // generacion de objeto de interes
+       
         GenerateObjectOfInterest();
 
         Collider[] deadBois = Physics.OverlapSphere(_npc.transform.position, _npc.perceptionRadius, _npc.deadBoidLayer); 

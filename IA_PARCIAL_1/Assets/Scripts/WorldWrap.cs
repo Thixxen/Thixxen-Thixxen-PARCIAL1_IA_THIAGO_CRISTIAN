@@ -12,23 +12,23 @@ public class WorldWrap : MonoBehaviour
     {
         Vector3 position = transform.position;
 
-        // Izquierda -> derecha
+    
         if (position.x < minX)
         {
             position.x = maxX;
         }
-        // Derecha -> izquierda
+        
         else if (position.x > maxX)
         {
             position.x = minX;
         }
 
-        // Abajo -> arriba
+    
         if (position.z < minZ)
         {
             position.z = maxZ;
         }
-        // Arriba -> abajo
+      
         else if (position.z > maxZ)
         {
             position.z = minZ;

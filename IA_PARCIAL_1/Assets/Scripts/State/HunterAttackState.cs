@@ -19,7 +19,7 @@ public class HunterAttackState : State
     {
         Debug.Log("Cazador entra en estado Ataque.");
 
-        // El primer disparo puede hacerse inmediatamente
+       
         _fireTimer = _npc.FireRate;
 
         _indicator =
@@ -47,9 +47,7 @@ public class HunterAttackState : State
             return;
         }
 
-        // ==========================================
-        // 1. CHEQUEO: ¿EL BOID MURIÓ?
-        // ==========================================
+     
 
         if (
             _npc.currentTarget.gameObject.layer !=
@@ -89,9 +87,7 @@ public class HunterAttackState : State
             return;
         }
 
-        // ==========================================
-        // 2. DISTANCIA AL OBJETIVO
-        // ==========================================
+      
 
         float distance =
             Vector3.Distance(
@@ -110,9 +106,7 @@ public class HunterAttackState : State
             return;
         }
 
-        // ==========================================
-        // 3. TIPO DE ATAQUE
-        // ==========================================
+      
 
         if (distance <= _npc.meleeAttackRadius)
         {
@@ -150,9 +144,7 @@ public class HunterAttackState : State
 
     private void ExecuteRangedAttack()
     {
-        // ==========================================
-        // MIRAR AL BOID
-        // ==========================================
+       
 
         Vector3 direction =
             (
@@ -168,9 +160,7 @@ public class HunterAttackState : State
 
         _fireTimer += Time.deltaTime;
 
-        // ==========================================
-        // DISPARAR
-        // ==========================================
+        
 
         if (_fireTimer >= _npc.FireRate)
         {
@@ -183,9 +173,7 @@ public class HunterAttackState : State
                 $"{_npc.currentAmmo}"
             );
 
-            // ======================================
-            // INDICADOR DE ATAQUE
-            // ======================================
+          
 
             if (_indicator != null)
             {
@@ -195,9 +183,7 @@ public class HunterAttackState : State
                 );
             }
 
-            // ======================================
-            // CREAR BALA
-            // ======================================
+        
 
             if (
                 _npc.BulletPrefab != null &&
@@ -221,9 +207,7 @@ public class HunterAttackState : State
                     shootDirection;
             }
 
-            // ======================================
-            // SIN MUNICIÓN
-            // ======================================
+         
 
             if (_npc.currentAmmo <= 0)
             {
@@ -252,7 +236,7 @@ public class HunterAttackState : State
             "¡Ataque cuerpo a cuerpo exitoso al Boid!"
         );
 
-        // Indicador de ataque cuerpo a cuerpo
+       
         if (_indicator != null)
         {
             _indicator.Show(
